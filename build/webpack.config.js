@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')            //打包后�
 const {CleanWebpackPlugin} = require('clean-webpack-plugin')        //清除上次打包文件
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");    //拆分css使用外链
 const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin') //将打包的css文件拆分  后续使用
+const vueLoaderPlugin = require('vue-loader/lib/plugin')                //解析vue文件
 
 module.exports = {
     mode:'development', // 开发模式
@@ -31,10 +32,15 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: "[name].[hash].css",
             chunkFilename: "[id].css",
-        })
+        }),
+        new vueLoaderPlugin()
     ],
     module:{
         rules:[
+            {
+                test:/\.vue$/,
+                use:['vue-loader']
+            },
             // {
             //   test:/\.css$/,
             //   use:['style-loader','css-loader'] // 从右向左解析原则
@@ -119,5 +125,12 @@ module.exports = {
                 ]
             },
         ]
-    }
+    },
+    resolve:{
+        alias:{
+          'vue$':'vue/dist/vue.runtime.esm.js', 
+          '@':path.resolve(__dirname,'../src')      //配置固定路径标识
+        },
+        extensions:['*','.js','.json','.vue']       //配置适用文件
+    },
 }
