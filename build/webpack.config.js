@@ -27,13 +27,26 @@ module.exports = {
     ],
     module:{
         rules:[
-            {
-              test:/\.css$/,
-              use:['style-loader','css-loader'] // 从右向左解析原则
-            },
+            // {
+            //   test:/\.css$/,
+            //   use:['style-loader','css-loader'] // 从右向左解析原则
+            // },
             {
               test:/\.scss$/,
-              use:['style-loader','css-loader','sass-loader'] // 从右向左解析原则
+              use:[
+                    'style-loader',
+                    'css-loader',
+                    {
+                        loader:'postcss-loader',
+                        options:{
+                            plugins:[
+                                // require('autoprefixer')({browsers: ['last 3 versions']})     //当前版本会报错
+                                require('autoprefixer')({overrideBrowserslist: ['> 0.15% in CN']})
+                            ]
+                        }
+                    },
+                    'sass-loader'
+                ] // 从右向左解析原则, 从下往上
             }
         ]
     }
