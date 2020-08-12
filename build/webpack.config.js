@@ -1,4 +1,5 @@
 const path = require('path');
+const Webpack = require('webpack')                                  //webpack热更新
 const HtmlWebpackPlugin = require('html-webpack-plugin')            //打包后文件导入到html文件内
 const {CleanWebpackPlugin} = require('clean-webpack-plugin')        //清除上次打包文件
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");    //拆分css使用外链
@@ -17,6 +18,12 @@ module.exports = {
         filename: '[name].[hash:8].js',      // 打包后的文件名称
         path: path.resolve(__dirname,'../dist')  // 打包后的目录
     },
+    devServer:{
+        open: true, //自动打开浏览器
+        port:3000,  //运行时的端口
+        hot:true,
+        contentBase:'../dist'   //指定托管的根目录
+    },
     plugins:[
         new HtmlWebpackPlugin({
           template:path.resolve(__dirname,'../public/index.html'),   //打包到的地方
@@ -33,7 +40,8 @@ module.exports = {
             filename: "[name].[hash].css",
             chunkFilename: "[id].css",
         }),
-        new vueLoaderPlugin()
+        new vueLoaderPlugin(),          //解析vue
+        new Webpack.HotModuleReplacementPlugin(),   //webpack热更新
     ],
     module:{
         rules:[
