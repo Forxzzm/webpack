@@ -27,10 +27,15 @@ module.exports = {
     // },
     plugins:[
         new HtmlWebpackPlugin({
-          template:path.resolve(__dirname,'../public/index.html'),   //打包到的地方
-          filename:'index.html',
-          chunks:['main'] // 与入口文件对应的模块名
-        }),
+            template:path.resolve(__dirname,'../public/index.html'),   //打包到的地方
+            filename:'index.html',
+            chunks:['main'] // 与入口文件对应的模块名
+          }),
+        // new HtmlWebpackPlugin({
+        //   template:path.resolve(__dirname,'../public/index.html'),   //打包到的地方
+        //   filename:'index.html',
+        //   chunks:['main'] // 与入口文件对应的模块名
+        // }),
         // new HtmlWebpackPlugin({
         //     template:path.resolve(__dirname,'../public/index-copy.html'),   //打包到的地方
         //     filename:'index-copy.html',
