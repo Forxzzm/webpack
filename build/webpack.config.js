@@ -7,8 +7,10 @@ const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin') //将打
 module.exports = {
     mode:'development', // 开发模式
     entry: {            // 入口文件
-        main: path.resolve(__dirname,'../src/main.js'),
-        mainCopy: path.resolve(__dirname,'../src/main-copy.js'),
+        main:["@babel/polyfill",path.resolve(__dirname,'../src/main.js')],
+        mainCopy:["@babel/polyfill",path.resolve(__dirname,'../src/main-copy.js')]
+        // main: path.resolve(__dirname,'../src/main.js'),
+        // mainCopy: path.resolve(__dirname,'../src/main-copy.js'),
     },    
     output: {
         filename: '[name].[hash:8].js',      // 打包后的文件名称
@@ -60,7 +62,7 @@ module.exports = {
                 use:{
                   loader:'babel-loader',
                   options:{
-                    presets:['@babel/preset-env']
+                    presets:['@babel/preset-env']   //根据浏览器版本解析js
                   }
                 },
                 exclude:/node_modules/      //排除该目录下的文件编译
