@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin')            //打包后文件导入到html文件内
 const {CleanWebpackPlugin} = require('clean-webpack-plugin')        //清除上次打包文件
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");    //拆分css使用外链
+const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin') //将打包的css文件拆分  后续使用
 
 module.exports = {
     mode:'development', // 开发模式
@@ -53,7 +54,58 @@ module.exports = {
                     },
                     'sass-loader'
                 ] // 从右向左解析原则, 从下往上
-            }
+            },
+            {
+                test: /\.(jpe?g|png|gif)$/i, //图片文件
+                use: [
+                  {
+                    loader: 'url-loader',
+                    options: {
+                      limit: 10240,     //小于10kb 使用url-loader打包成base64
+                      fallback: {
+                        loader: 'file-loader',  //其他情况使用file-loader
+                        options: {
+                            name: 'img/[name].[hash:8].[ext]'
+                        }
+                      }
+                    }
+                  }
+                ]
+            },
+            {
+                test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/, //媒体文件
+                use: [
+                  {
+                    loader: 'url-loader',
+                    options: {
+                      limit: 10240,
+                      fallback: {
+                        loader: 'file-loader',
+                        options: {
+                          name: 'media/[name].[hash:8].[ext]'
+                        }
+                      }
+                    }
+                  }
+                ]
+            },
+            {
+                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i, // 字体
+                use: [
+                  {
+                    loader: 'url-loader',
+                    options: {
+                      limit: 10240,
+                      fallback: {
+                        loader: 'file-loader',
+                        options: {
+                          name: 'fonts/[name].[hash:8].[ext]'
+                        }
+                      }
+                    }
+                  }
+                ]
+            },
         ]
     }
 }
