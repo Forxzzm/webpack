@@ -1,6 +1,7 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin')    
-const {CleanWebpackPlugin} = require('clean-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')            //打包后文件导入到html文件内
+const {CleanWebpackPlugin} = require('clean-webpack-plugin')        //清除上次打包文件
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");    //拆分css使用外链
 
 module.exports = {
     mode:'development', // 开发模式
@@ -24,6 +25,10 @@ module.exports = {
             chunks:['mainCopy'] // 与入口文件对应的模块名
         }),
         new CleanWebpackPlugin(),
+        new MiniCssExtractPlugin({
+            filename: "[name].[hash].css",
+            chunkFilename: "[id].css",
+        })
     ],
     module:{
         rules:[
@@ -34,7 +39,8 @@ module.exports = {
             {
               test:/\.scss$/,
               use:[
-                    'style-loader',
+                    // 'style-loader',
+                    MiniCssExtractPlugin.loader,
                     'css-loader',
                     {
                         loader:'postcss-loader',
