@@ -1,5 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin')    
+const {CleanWebpackPlugin} = require('clean-webpack-plugin')
+
 module.exports = {
     mode:'development', // 开发模式
     entry: {            // 入口文件
@@ -20,6 +22,7 @@ module.exports = {
             template:path.resolve(__dirname,'../public/index-copy.html'),   //打包到的地方
             filename:'index-copy.html',
             chunks:['mainCopy'] // 与入口文件对应的模块名
-        })
+        }),
+        new CleanWebpackPlugin(),
     ]
 }
