@@ -24,5 +24,17 @@ module.exports = {
             chunks:['mainCopy'] // 与入口文件对应的模块名
         }),
         new CleanWebpackPlugin(),
-    ]
+    ],
+    module:{
+        rules:[
+            {
+              test:/\.css$/,
+              use:['style-loader','css-loader'] // 从右向左解析原则
+            },
+            {
+              test:/\.scss$/,
+              use:['style-loader','css-loader','sass-loader'] // 从右向左解析原则
+            }
+        ]
+    }
 }
