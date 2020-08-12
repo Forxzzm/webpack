@@ -56,6 +56,16 @@ module.exports = {
                 ] // 从右向左解析原则, 从下往上
             },
             {
+                test:/\.js$/,       //可将ES6/7/8转换为ES5
+                use:{
+                  loader:'babel-loader',
+                  options:{
+                    presets:['@babel/preset-env']
+                  }
+                },
+                exclude:/node_modules/      //排除该目录下的文件编译
+            },
+            {
                 test: /\.(jpe?g|png|gif)$/i, //图片文件
                 use: [
                   {
